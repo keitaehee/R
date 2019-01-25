@@ -1,0 +1,112 @@
+20190121 Day01
+https://github.com/encaion/edu_SDS_R_2019
+PWD : sdssds
+
+강사님 : contact@rloha.io
+
+[[ R ]]
+- RStudio : 파일 오픈 시 한글 깨지면 File - Reopen with encoding
+- index 가 1번부터 시작됨
+- highligte selected line / show indent guide / higilight r funciton calls
+
+#### _____ ● 단축키 ####
+# 실행: [Ctrl] + [Enter]
+# 새파일 열기: [Ctrl] + [o]
+# 스크립트 저장: [Ctrl] + [s]
+# 주석 처리: [Ctrl] + [Shift] + [c]
+# 스크립트창 이동: [Ctrl] + [1]
+# 콘솔창 이동: [Ctrl] + [2]
+# 콘솔창 클리어: [Ctrl] + [l]
+# 문서 개요 확인: [Ctrl] + [Shift] + [o]
+
+#### _____ ● 유용한 패키지 ####
+# ▶ 데이터 조작 및 처리: dplyr, reshape2, data.table
+# ▶ 그래프 등 시각화 관련: ggplot2, ggmap, ggvis, lattice, plotly
+# ▶ 데이터 분석 등 기계학습 관련: CART, e1071, C50, DMwR
+# ▶ 시계열 데이터 처리: lubridate, xtm
+# ▶ 텍스트 처리: splitstackshape, KoNLP
+
+### 패키지 불러오기, 등록하기
+install.packages("data.table")  # 큰 데이터 처리 시 사용
+library("data.table")
+
+작업폴더 - getwd() / setwd("경로")
+
+# 파일오픈
+library("data.table")
+df = fread("life_expectancy.csv")
+head(df)
+
+install.packages("data.table")
+install.packages('bit64')
+
+Q. file read 시 
+Warning message:
+In require_bit64() :
+  Some columns are type 'integer64' but package bit64 is not installed. Those columns will print as strange looking floating point data. There is no need to reload the data. Simply install.packages('bit64') to obtain the integer64 print method and print the data again.
+메세지 발생하여 install.packages 수행 하였더니 fread 결과가 바뀜.
+library-> 내가 실제 수행하기 위해 해주는건가?
+
+# matrix()
+> matrix(1:6, nrow=3)
+     [,1] [,2]
+[1,]    1    4
+[2,]    2    5
+[3,]    3    6
+> matrix(1:6, nrow=3, byrow=TRUE)
+     [,1] [,2]
+[1,]    1    2
+[2,]    3    4
+[3,]    5    6
+-> byrow 에 따라 들어가는 순서가 다르다.
+
+# list()
+Object $factor : $ 는 of 의 뜻으로 이해하면 됨
+
+> #### _____ ● 수열 생성 ####
+> # 특수기호(:)를 사용한 숫자 생성
+> 7:3
+[1] 7 6 5 4 3
+> 1.5:5
+[1] 1.5 2.5 3.5 4.5
+> 1.5:1.5
+[1] 1.5
+> # seq() 함수를 사용한 숫자 생성
+> seq(from = 1 , to = 3)
+[1] 1 2 3
+> seq(from = 1 , to = 3 , by = 0.5)
+[1] 1.0 1.5 2.0 2.5 3.0
+> seq(from = 1 , to = 3 , length.out = 8)
+[1] 1.000000 1.285714 1.571429 1.857143 2.142857 2.428571 2.714286 3.000000
+> seq(from = 1 , to = 2 , length.out = 8)
+[1] 1.000000 1.142857 1.285714 1.428571 1.571429 1.714286 1.857143 2.000000
+> seq(from = 1 , to = 8 , length.out = 8)
+[1] 1 2 3 4 5 6 7 8
+> # rep() 함수를 사용한 숫자 생성
+> rep(1:3, 5)
+ [1] 1 2 3 1 2 3 1 2 3 1 2 3 1 2 3
+> rep("HELLO!", 5)
+[1] "HELLO!" "HELLO!" "HELLO!" "HELLO!" "HELLO!"
+> rep(1:4, times = 4)
+ [1] 1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4
+> rep(1:4, each = 4)
+ [1] 1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4
+
+# Q. column 명을 바꿔봅시다.
+# 1) 여섯번째 column 명을 "col_6" 으로 변경하시오.
+colnames(aws)[6] <- "col_6"
+# 2) 여섯번째, 일곱번째 column 명을 각각 "aa" 와 "bb"로 변경하시오.
+colnames(aws)[6:7] <- c("aa", "bb")
+
+#### _____ ● 함수 정리 ####
+# ▶ 각종 함수를 활용하여 주어진 자료를 요약
+# ▶ str(): 객체 구조 확인
+# ▶ summary(): (2차원) 객체의 변수별 기술통계량 확인
+# ▶ length(): 1차원 객체의 길이 계산
+# ▶ unique(): 1차원 객체의 고유 원소 추출
+# ▶ quantile(): 1차원 객체의 분위수 계산
+# ▶ nrow(): 2차원 객체의 row 개수 계산
+# ▶ ncol(): 2차원 객체의 column 개수 계산
+# ▶ table(): 객체의 고유 원소 개수 계산
+# ▶ aggregate(): 조건에 따른 요약 정보 계산
+# ▶ apply(): (2차원) 객체의 row 또는 column 기준 일괄 계산

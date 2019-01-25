@@ -1,0 +1,84 @@
+20190122 Day02
+
+## 00_environment.R ¿¡ ±âº» import package ¹× »ç¿ëÀÚ ÇÔ¼ö¸¦ ÀÛ¼º
+--------------------------------------
+options(stringsAsFactors = FALSE) # Default °ªÀ» String Á¤º¸¸¦ Factor ·Î »ç¿ëÇÏÁö ¾Êµµ·Ï ¼³Á¤
+
+install.packages(c("caret", "tidyverse", "splitstackshape"))
+
+install.packages("sqldf")
+install.packages("dplyr")
+
+library("dplyr")
+library("sqldf")
+library("data.table")
+library("haven") #haven : SAS
+library("dplyr")
+library("splitstackshape")
+library("lubridate")
+library("sampling") # Ç¥º»ÃßÃâ
+library("reshape2")
+
+## ½ÇÁ¦ ±¸Çö ¼Ò½º¿¡¼­ ÇØ´ç ³»¿ë Ãß°¡ÇÏ¿© »ç¿ë
+# source("00_environment.R", encoding = "UTF-8")
+--------------------------------------
+
+# Review
+**) getwd() , setwd("°æ·Î") // ÀÛ¾÷µğ·ºÅä¸® º¯°æ
+**) ÆÄÀÏÀº fread()¸¦ »ç¿ëÇÏ´Â °ÍÀ» ÃßÃµ
+    libraray excel À» »ç¿ëÇÏ¿© read_excel »ç¿ë°¡´É
+**) ÀÚ·áÇü
+vector : c()
+Çà·Ä : matrix()
+µ¥ÀÌÅÍÇÁ·¹ÀÓ : data.frame()
+¸®½ºÆ® : list()
+**) ±â¼úÅë°èÈ®ÀÎ
+str(obj) °´Ã¼±¸Á¶È®ÀÎ
+summary(obj)
+nrow(obj) ncol(obj)
+dim(obj)
+colnames(obj) -> ÄÃ·³¸í ¹Ù²Ü¶§µµ »ç¿ë
+**) 
+obj[¼ıÀÚ, ] -> µ¥ÀÌÅÍ¸¦ °¡Áö°í ÀÖÀ½, ¸í½ÃµÈ ÇàÀÇ Á¤º¸µé // ¾È½áµµ µÇ´Â °æ¿ì°¡ ÀÖÁö¸¸, ¸í½ÃÇÏ¿© ÃßÈÄ °¡µ¶¼ºÀ» ³ô¿©¶ó.
+obj[ , ¹®ÀÚ] -> ÄÃ·³¸í ±âÁØÀ¸·Î µ¥ÀÌÅÍ¸¦ °¡Á®¿È
+=> µ¥ÀÌÅÍ ¼±ÅÃÀÌ °¡´ÉÇÏ´Ù = º¯°æÀÌ °¡´ÉÇÏ´Ù.
+obj[Á¶°Ç¹®, ] -> ÇØ´ç Á¶°ÇÀ» ¸¸Á·ÇÏ´Â µ¥ÀÌÅÍ¸¸ Á¶È¸ÇÑ´Ù.
+**) µ¥ÀÌÅÍ º´ÇÕ
+cbind(obj1, obj2) // obj1 ¿À¸¥ÂÊ¿¡ obj2 ºÙÀÓ
+rbind(obj1, obj2) // obj1 ¾Æ·¡ÂÊ¿¡ obj2 ºÙÀÓ -> µ¥ÀÌÅÍ Å¸ÀÔÀÌ °°¾Æ¾ß ÇÑ´Ù
+**)
+length() / unique() : 1Â÷¿ø °´Ã¼¿¡¼­ »ç¿ë / length(unique()) ·Î ¸î°³°ªÀÌÀÖ´ÂÁö ¹Ù·Îº¼ ¼ö ÀÌ¾¸
+table / prop.table
+quantie(obj, probs = ¼ıÀÚ(%¹¹·ÎÇÒÁö))
+
+****) º¤ÅÍ ¿¬»ê ÇÊÅÍ¸µ
+obj[obj$ÄÃ·³ Á¶°Ç, ] : ÇÊÅÍ¸µÀ» ÀÌ·¸°Ô ÇØ¼­ ÇÊ¿äÇÑ ·Î¿ì¸¸ »Ì¾Æ¿Ã ¼ö ÀÖÀ½, Á¶°Ç¿¬»êÀº & ¿Í | »ç¿ë°¡´É 
+
+**) class , is.type, as.type 
+as.data.frame ->  table À» µ¥ÀÌÅÍÇÁ·¹ÀÓÀ¸·Î º¯°æ
+---------------------------------------------------------------------------------------------------------
+
+## Á¤±ÔÇ¥Çö½Ä
+# ¢º gsub(): ÆĞÅÏ Ä¡È¯
+# ¢º grep(): ÆĞÅÏ ¸ÅÄª
+# ¢º grepl(): ÆĞÅÏ ¸ÅÄª °á°ú¸¦ ³í¸®°ª(TRUE/FALSE)À¸·Î ¹İÈ¯
+gsub(pattern = "", replacement = "", x = text1)
+
+[0-9] / [a-z] / [A-z] / [¤¡-ÆR]
+gsub(pattern = " {2,}", replacement = " ", x = text1) // 2Ä­ ÀÌ»óÀÇ ¶ç¿ö¾²±â¸¦ ¸ğµÎ ÇÑÄ­À¸·Î º¯°æÇÑ´Ù
+[^0-9] ÀÌ°Ô not ÀÓ
+# __ '.'ÀÇ Ä¡È¯
+gsub(pattern = "\\.", replacement = "@", x = text1)
+gsub(pattern = "[[:punct:]]", replacement = "@", x = text1) // Æ¯¼ö¹®ÀÚ ÀÏ°ı Ä¡È¯
+
+pattern => Á¤±ÔÇ¥Çö½Ä »ç¿ë °¡´É È®·üÀÌ ³ôÀ½
+https://www.rstudio.com/resources/cheatsheets/ ¿¡ Work with Strings Cheat Sheet À¸·Î Á¤±Ô½Ä ÂüÁ¶
+
+
+---------------------------------------------------------------------------------------------------------
+## Pivtng [melt, cast]
+library("reshape2") # ÀÌ ÆĞÅ°Áö ³Ö¾î¾ßÇØ!!
+
+df_melt = melt(data = df, id.vars = ±âÁØÁ¤º¸ variable.name = "Group", value.name = "Count")
+head(df_melt)
+dcast(data = df_melt, formula = Obs ~ Group, value.var = "Count")

@@ -1,0 +1,68 @@
+20190123 Day03
+
+source("소스경로\파일명", encoding = "UTF-8")
+
+@ reshape2 패키지
+ - melt : data = dataframe, id.vars = 여러개가능, variable.name / value.name 이름지정가능 
+ - dcast : data = dataframe, formula, 
+	(특정 조합이 비어있는 경우에 대한 확인 / 결측치 처리)
+
+@ t() 전치함수
+
+@ ifelse ( test = 조건 , yes = , no = )
+
+@ apply 함수 :  X = dataframe , MARGINE = 1 (행기준합) or 2 (열기준합), FUN = "sum" ... 
+@ sapply(dataframe, "sum)
+
+@ Join
+library("sqldf") # 쿼리 직접 사용가능
+sqldf("SELECT * FROM dataframe")
+
+library("dplyr")
+inner_join / left_join (x = dataframeX, y = dataframeY, by = c (조건) )
+
+magrittr 패키지 -> 절차형으로 사용 가능....
+`+` 
+
+@ 평균 : mean / na.rm 결측값 제외여부
+@ 중앙값 : median
+@ 최빈값 : mode = function(x){ ux = unique(x) ... }
+
+@ 가설검정
+- 귀무가설의 기각 가능여부 
+- 대립가설  Alternative Hypothesis (내가주장하는거)
+
+@ 모수적 방법 : sample 로 모집단을 추정가능 한 경우.. 사전정보가 있는 경우
+@ 비모수적 방법 : sample 이 적을때.. -> 표본의 반복적인 복원 추출로 표본 본포 생성 후 모집단 분포 추정
+
+윌콕슨 순위합검정. 부호검정... 모야이게..ㅠㅠ
+
+점추정은 걍 평균내고 하는거
+
+구간추정 
+1.96 95%
+2.33 98%
+2.58 99%
+
+library("ggplot2") 으로 그래프 그리기
+mean  평균  sd 표준편차
+정규분포  pnorm...?
+dnorm(x, mean = 0, sd = 1, log = FALSE)
+pnorm(q, mean = 0, sd = 1, lower.tail = TRUE, log.p = FALSE)
+qnorm(p, mean = 0, sd = 1, lower.tail = TRUE, log.p = FALSE)
+rnorm(n, mean = 0, sd = 1)
+
+t.test()
+
+
+	2-sample test for equality of proportions with continuity correction
+	2표본검정, 2개 비율이 같은지 아닌지 알아보는거....
+data:  aa out of bb
+X-squared(카이제곱통계량) = 0.42024, df(자유도) = 1, p-value = 0.5168 
+alternative hypothesis: two.sided
+95 percent confidence interval: (신뢰구간 경계)
+ -0.1760431  0.4452738
+sample estimates:
+   prop 1    prop 2 
+0.7500000 0.6153846 
+비율
